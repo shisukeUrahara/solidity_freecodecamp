@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Shisuke Urahara",
   "license": "ISC",
   "dependencies": {
     "@chainlink/contracts": "^0.4.1",
