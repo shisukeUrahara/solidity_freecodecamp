@@ -1,5 +1,6 @@
 const { network } = require("hardhat")
 const { networkConfig, developmentChains } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
 
 async function deployFunction({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments
@@ -14,17 +15,26 @@ async function deployFunction({ getNamedAccounts, deployments }) {
         const ethUsdAggregator = await deployments.get("MockV3Aggregator")
         ethUsdPriceFeedAddress = ethUsdAggregator.address
     } else {
-        ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"]
+        ethUsdPriceFeedAddress =
+            networkConfig[chainId]["ethUsdPriceFeedAddress"]
     }
+
+    const args = [ethUsdPriceFeedAddress]
 
     // if network is local like hardhat ,. then deploy mock contracts
 
     // When using oracles for local hardhat network , we use mocks
     const fundMeContract = await deploy("FundMe", {
         from: deployer,
-        args: [ethUsdPriceFeedAddress], // put price feed address here
+        args: args, // put price feed address here
         log: true,
+        waitConfirmations: network.config.blockConfirmations || 1,
     })
+
+    //  Verifying contracts if they are not deployed on local or hardhat network
+    if (!developmentChains.includes(network.name)) {
+        await verify(fundMeContract.address, args)
+    }
 
     log(
         "--------------------------------------------------------------------------------"
