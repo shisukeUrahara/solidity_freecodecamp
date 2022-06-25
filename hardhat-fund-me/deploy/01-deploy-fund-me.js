@@ -41,5 +41,5 @@ async function deployFunction({ getNamedAccounts, deployments }) {
     )
 }
 
-module.exports.default = deployFunction
+module.exports = deployFunction
 module.exports.tags = ["all", "fundme"]

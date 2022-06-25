@@ -22,7 +22,7 @@ contract FundMe {
     address private immutable i_owner;
     address[] private s_funders;
     mapping(address => uint256) private s_addressToAmountFunded;
-    AggregatorV3Interface private priceFeed;
+    AggregatorV3Interface public priceFeed;
 
     // Events (we have none!)
 
