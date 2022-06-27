@@ -2,6 +2,8 @@
 pragma solidity ^0.8.8;
 error Lottery_NotEnoughEthEntered();
 
+import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+
 contract Lottery {
     //   state variables
     uint256 private immutable i_entryFees;
@@ -28,6 +30,11 @@ contract Lottery {
         emit LotteryEnter(msg.sender);
     }
 
+    function requestRandomWinner() external {}
+
+    function fullfillRandomWords() internal override {}
+
+    //  view/pure functions
     function getEntryFees() public view returns (uint256) {
         return i_entryFees;
     }
